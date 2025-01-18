@@ -8,9 +8,6 @@
     ansible.builtin.pip:
       name: "{{ item }}"
       excecutable: pip3.9
-    loop:
-    - cryptography
-    - pyMYSQL
 
   - name: Install MYSQL server
     ansible.builtin.package:
