@@ -1,7 +1,17 @@
 - name: conigure mysql server
   hosts: mysql
   become: yes
+  vars:
+    mysql_root_password: ExpenseApp@1
   tasks:
+  - name: Install MySQL libraries
+    ansible.builtin.pip:
+      name: "{{ item }}"
+      excecutable: pip3.9
+    loop:
+    - cryptography
+    - pyMYSQL
+
   - name: Install MYSQL server
     ansible.builtin.package:
       name: mysql-server
@@ -13,5 +23,19 @@
       state: started
       enabled: yes
 
-  
+  - name: connect to mysql server
+    community.mysql.mysql_info:
+       login_user: root
+       login_password: "{{ mysql_root_password }}"
+       login_host: mysql.sdaws82s.online
+    register: mysql_info
+    ignore_error: true
+
+  - name:  print the output
+    debug:
+      msg: "MYSQL info: {{ mysql_info }}"
+
+  - name: setup root password
+    ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ mysql_root_password }}"
+    when: mysql_info.failed is true
     
