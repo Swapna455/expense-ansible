@@ -42,7 +42,7 @@
   - name: copy backend service
     ansible.builtin.copy:
       src: backend.service
-      dest: /etc/systemd/system/backend.serice
+      dest: /etc/systemd/system/backend.service
 
   - name: install python libs
     ansible.builtin.pip:
@@ -66,7 +66,7 @@
       enabled: true
       state: restarted
       daemon_reload: true
-      name: backend service
+      name: backend 
 
 
 
